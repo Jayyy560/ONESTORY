@@ -3,6 +3,8 @@ import { prisma } from '@/lib/prisma'
 import { getCurrentDayNumber, MAX_DAILY_ACCEPTED, COOLDOWN_DAYS } from '@/lib/constants'
 import { revalidatePath } from 'next/cache'
 
+export const dynamic = 'force-dynamic'
+
 export async function POST(request: Request) {
   // Verify cron secret
   const authHeader = request.headers.get('authorization')
@@ -44,7 +46,7 @@ export async function POST(request: Request) {
   const now = new Date()
   const cooldownDate = new Date(now.getTime() + COOLDOWN_DAYS * 24 * 60 * 60 * 1000)
 
-  await prisma.$transaction(async (tx) => {
+  await prisma.$transaction(async (tx: any) => {
     for (const sub of toAccept) {
       await tx.sentence.create({
         data: {
@@ -71,7 +73,7 @@ export async function POST(request: Request) {
 
     if (toReject.length > 0) {
       await tx.submission.updateMany({
-        where: { id: { in: toReject.map(s => s.id) } },
+        where: { id: { in: toReject.map((s: any) => s.id) } },
         data: { status: 'REJECTED' },
       })
     }
