@@ -5,6 +5,8 @@ import { redirect } from 'next/navigation'
 import { getCurrentDayNumber } from '@/lib/constants'
 import { ApproveButton, RemoveButton, CanonizeButton } from '@/components/admin/AdminActions'
 
+export const dynamic = 'force-dynamic'
+
 export default async function AdminPage() {
   const supabase = await createClient()
   const { data: { user: authUser } } = await supabase.auth.getUser()

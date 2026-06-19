@@ -1,6 +1,9 @@
 import { prisma } from '@/lib/prisma'
 import { PageTitle } from '@/components/ui/PageTitle'
 import { RejectedSentence } from '@/components/alternate/RejectedSentence'
+import { getCurrentDayNumber } from '@/lib/constants'
+
+export const dynamic = 'force-dynamic'
 
 export default async function AlternateFuturesPage() {
   const rejectedSubmissions = await prisma.submission.findMany({

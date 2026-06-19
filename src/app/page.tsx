@@ -3,6 +3,8 @@ import { PageTitle } from '@/components/ui/PageTitle'
 import { ArchiveLabel } from '@/components/ui/ArchiveLabel'
 import { StoryReader } from '@/components/story/StoryReader'
 
+export const dynamic = 'force-dynamic'
+
 export default async function Home() {
   const [sentenceCount, dayCount, userCount] = await Promise.all([
     prisma.sentence.count(),

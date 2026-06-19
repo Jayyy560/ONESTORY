@@ -6,6 +6,8 @@ import { createClient } from '@/lib/supabase/server'
 import { redirect } from 'next/navigation'
 import { Divider } from '@/components/ui/Divider'
 
+export const dynamic = 'force-dynamic'
+
 export default async function SubmitPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()

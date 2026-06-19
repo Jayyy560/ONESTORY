@@ -2,6 +2,8 @@ import { prisma } from '@/lib/prisma'
 import { PageTitle } from '@/components/ui/PageTitle'
 import { DayEntry } from '@/components/chronicle/DayEntry'
 
+export const dynamic = 'force-dynamic'
+
 export default async function ChroniclePage() {
   const days = await prisma.day.findMany({
     orderBy: { dayNumber: 'desc' },

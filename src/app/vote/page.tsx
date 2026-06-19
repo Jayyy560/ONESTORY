@@ -1,3 +1,5 @@
+export const dynamic = 'force-dynamic'
+
 import { prisma } from '@/lib/prisma'
 import { PageTitle } from '@/components/ui/PageTitle'
 import { VoteTimer } from '@/components/voting/VoteTimer'
