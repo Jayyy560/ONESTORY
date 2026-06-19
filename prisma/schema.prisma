@@ -1,0 +1,107 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider  = "postgresql"
+}
+
+model User {
+  id              String       @id @default(uuid())
+  supabaseId      String       @unique @map("supabase_id")
+  displayName     String       @map("display_name")
+  email           String       @unique
+  role            UserRole     @default(CONTRIBUTOR)
+  isBanned        Boolean      @default(false) @map("is_banned")
+  cooldownUntil   DateTime?    @map("cooldown_until")
+  createdAt       DateTime     @default(now()) @map("created_at")
+  updatedAt       DateTime     @updatedAt @map("updated_at")
+
+  submissions     Submission[]
+  votes           Vote[]
+  sentences       Sentence[]
+
+  @@map("users")
+}
+
+enum UserRole {
+  CONTRIBUTOR
+  MODERATOR
+  ADMIN
+}
+
+model Sentence {
+  id              Int          @id @default(autoincrement())
+  sequenceNumber  Int          @unique @map("sequence_number")
+  content         String
+  authorId        String       @map("author_id")
+  acceptedAt      DateTime     @map("accepted_at")
+  dayNumber       Int          @map("day_number")
+  voteCount       Int          @map("vote_count")
+  submissionId    String       @unique @map("submission_id")
+
+  author          User         @relation(fields: [authorId], references: [id])
+  submission      Submission   @relation(fields: [submissionId], references: [id])
+  day             Day          @relation(fields: [dayNumber], references: [dayNumber])
+
+  @@index([dayNumber])
+  @@index([authorId])
+  @@map("sentences")
+}
+
+model Submission {
+  id              String           @id @default(uuid())
+  content         String
+  authorId        String           @map("author_id")
+  status          SubmissionStatus @default(PENDING)
+  voteCount       Int              @default(0) @map("vote_count")
+  daySubmitted    Int              @map("day_submitted")
+  moderatedById   String?          @map("moderated_by_id")
+  moderatedAt     DateTime?        @map("moderated_at")
+  moderationNote  String?          @map("moderation_note")
+  createdAt       DateTime         @default(now()) @map("created_at")
+
+  author          User             @relation(fields: [authorId], references: [id])
+  votes           Vote[]
+  sentence        Sentence?
+
+  @@index([status, daySubmitted])
+  @@index([authorId])
+  @@index([voteCount(sort: Desc)])
+  @@map("submissions")
+}
+
+enum SubmissionStatus {
+  PENDING    // Awaiting admin review
+  APPROVED   // Admin approved, in voting queue
+  ACCEPTED   // Won daily vote, part of canon
+  REJECTED   // Lost daily vote
+  REMOVED    // Admin removed
+}
+
+model Vote {
+  id              String       @id @default(uuid())
+  userId          String       @map("user_id")
+  submissionId    String       @map("submission_id")
+  createdAt       DateTime     @default(now()) @map("created_at")
+
+  user            User         @relation(fields: [userId], references: [id])
+  submission      Submission   @relation(fields: [submissionId], references: [id])
+
+  @@unique([userId, submissionId])
+  @@index([submissionId])
+  @@map("votes")
+}
+
+model Day {
+  dayNumber       Int          @id @map("day_number")
+  date            DateTime
+  isLocked        Boolean      @default(false) @map("is_locked")
+  totalSubmissions Int         @default(0) @map("total_submissions")
+  acceptedCount   Int          @default(0) @map("accepted_count")
+  lockedAt        DateTime?    @map("locked_at")
+
+  sentences       Sentence[]
+
+  @@map("days")
+}

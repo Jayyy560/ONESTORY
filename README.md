@@ -1,36 +1,82 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<div align="center">
+  <h1>📖 ONE STORY</h1>
+  <p><em>A Document Written by Humanity</em></p>
+</div>
 
-## Getting Started
+---
 
-First, run the development server:
+<br/>
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+**One Story** is an experimental, collaborative storytelling web application. It is not a social network or an AI product; it is a living historical archive. The concept is simple: **humanity is collectively writing a single story, one sentence at a time.**
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The design philosophy is deeply inspired by old books, archives, libraries, newspapers, public records, and museum exhibits. The interface feels timeless, quiet, and serious—a digital monument that could still exist 100 years from now.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🏛 The Rules of the Archive
+1. **One Sentence Only:** The story progresses one sentence at a time.
+2. **Daily Lock:** Every day at exactly **11 PM IST**, the story locks. The top-voted sentence from the public queue is accepted into the official canon.
+3. **The 45-Day Cooldown:** If a contributor's sentence is accepted into the official story, they are placed on a 45-day cooldown. This ensures that a diverse array of voices shapes the narrative, rather than a select few power users.
+4. **Length Limit:** Sentences are strictly capped at 500 characters.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📜 Features
+- **The Chronicle:** A comprehensive, chapter-by-chapter log of the entire story's history.
+- **Alternate Futures:** A museum of sentences that were proposed but ultimately rejected.
+- **Public Voting Hall:** An interactive voting system where the community determines which sentence will be canonized next.
+- **Admin Moderation:** A strict queue system where all submissions are manually reviewed before entering the public voting pool to maintain the integrity of the archive.
+- **Archive Aesthetics:** A meticulously crafted, CSS-first design system utilizing `Tailwind CSS v4` featuring subtle paper textures, serif typography, and letterpress-style stamps.
 
-## Learn More
+## 💻 Tech Stack
+- **Framework:** Next.js (App Router)
+- **Styling:** Tailwind CSS v4 (CSS-first, custom design system)
+- **Database:** PostgreSQL (via Supabase)
+- **ORM:** Prisma v7 (using the `@prisma/adapter-pg` driver)
+- **Authentication:** Google OIDC via `@react-oauth/google` and Supabase Auth
+- **Deployment:** Vercel
 
-To learn more about Next.js, take a look at the following resources:
+## 🚀 Local Development
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/Jayyy560/ONESTORY.git
+   cd ONESTORY
+   ```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-## Deploy on Vercel
+3. **Environment Setup:**
+   Create a `.env.local` file in the root directory and add your credentials:
+   ```env
+   # Google OAuth (Frontend)
+   NEXT_PUBLIC_GOOGLE_CLIENT_ID=your-google-client-id
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+   # Supabase
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+   # Database (Prisma)
+   DATABASE_URL="postgresql://postgres.[project]:[password]@aws-0-[region].pooler.supabase.com:6543/postgres?pgbouncer=true"
+   DIRECT_URL="postgresql://postgres.[project]:[password]@aws-0-[region].pooler.supabase.com:5432/postgres"
+
+   # Security
+   CRON_SECRET=your-secret-key
+   ```
+
+4. **Sync the Database Schema:**
+   ```bash
+   npx prisma db push
+   ```
+
+5. **Start the Development Server:**
+   ```bash
+   npm run dev
+   ```
+
+Open [http://localhost:3000](http://localhost:3000) to view the archive.
+
+---
+
+<div align="center">
+  <p><em>The story belongs to everyone.</em></p>
+</div>
