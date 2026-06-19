@@ -101,5 +101,5 @@ export async function getUserVotes() {
     select: { submissionId: true },
   })
 
-  return votes.map(v => v.submissionId)
+  return votes.map((v: any) => v.submissionId)
 }

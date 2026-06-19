@@ -146,7 +146,7 @@ export async function runDailyCanonization() {
     // Reject remaining
     if (toReject.length > 0) {
       await tx.submission.updateMany({
-        where: { id: { in: toReject.map(s => s.id) } },
+        where: { id: { in: toReject.map((s: any) => s.id) } },
         data: { status: 'REJECTED' },
       })
     }
