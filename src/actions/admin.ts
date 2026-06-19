@@ -116,7 +116,7 @@ export async function runDailyCanonization() {
   const cooldownDate = new Date(now.getTime() + COOLDOWN_DAYS * 24 * 60 * 60 * 1000)
 
   // Execute in transaction
-  await prisma.$transaction(async (tx) => {
+  await prisma.$transaction(async (tx: any) => {
     // Accept top sentences
     for (const sub of toAccept) {
       await tx.sentence.create({
