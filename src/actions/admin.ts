@@ -84,7 +84,7 @@ export async function toggleUserBan(userId: string) {
 // Daily canonization: lock the day, accept top 30, reject the rest
 export async function runDailyCanonization() {
   const result = await requireAdmin()
-  if ('error' in result) return result
+  if ('error' in result) return { error: result.error }
 
   const dayNumber = getCurrentDayNumber()
 
